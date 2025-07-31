@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Form IMT</title>
+  <style>
+    body { font-family: Arial; padding: 20px; }
+    input, button { margin: 5px; padding: 5px; }
+    table, th, td { border: 1px solid black; border-collapse: collapse; padding: 8px; }
+  </style>
+</head>
+<body>
+
+  <h2>Form Data IMT</h2>
+  <label>Nama:</label>
+  <input type="text" id="nama"><br>
+  <label>Tinggi (cm):</label>
+  <input type="number" id="tinggi"><br>
+  <label>Berat (kg):</label>
+  <input type="number" id="berat"><br>
+  <button onclick="hitungIMT()">Hitung IMT</button>
+
+  <h3>Hasil:</h3>
+  <p id="hasil"></p>
+
+  <h3>Data Tercatat:</h3>
+  <table id="dataTable">
+    <tr>
+      <th>Nama</th>
+      <th>Tinggi</th>
+      <th>Berat</th>
+      <th>IMT</th>
+      <th>Kategori</th>
+    </tr>
+  </table>
+
+  <script>
+    function hitungIMT() {
+      const nama = document.getElementById("nama").value;
+      const tinggi = parseFloat(document.getElementById("tinggi").value) / 100;
+      const berat = parseFloat(document.getElementById("berat").value);
+
+      if (!nama || isNaN(tinggi) || isNaN(berat)) {
+        alert("Mohon isi semua data dengan benar.");
+        return;
+      }
+
+      const imt = (berat / (tinggi * tinggi)).toFixed(2);
+      let kategori = "";
+
+      if (imt < 18.5) kategori = "Kurus";
+      else if (imt < 25) kategori = "Normal";
+      else if (imt < 30) kategori = "Gemuk";
+      else kategori = "Obesitas";
+
+      document.getElementById("hasil").innerText = `IMT: ${imt} (${kategori})`;
+
+      const tabel = document.getElementById("dataTable");
+      const baris = tabel.insertRow(-1);
+      baris.insertCell(0).innerText = nama;
+      baris.insertCell(1).innerText = (tinggi * 100).toFixed(0);
+      baris.insertCell(2).innerText = berat;
+      baris.insertCell(3).innerText = imt;
+      baris.insertCell(4).innerText = kategori;
+
+      document.getElementById("nama").value = "";
+      document.getElementById("tinggi").value = "";
+      document.getElementById("berat").value = "";
+    }
+  </script>
+
+</body>
+</html>
